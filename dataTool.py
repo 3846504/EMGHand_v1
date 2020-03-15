@@ -16,26 +16,26 @@ class data:
     __pi = pigpio.pi()
     __hndl = __pi.spi_open(__slct, __baud, __flag) # デバイスオープン
 
-    #### public member ####
-
     #### private method ####
     def __init__(self, ch_num=5, slct=0):
         self.__ch_num = ch_num
         self.__slct = slct
 
     #### public method ####
-    def saveData(self):
-        for adch in range(self.__ch_num):
-            cmnd = ( 0b00011000 + adch ) << 2
+    def saveData(self, dim = 10000):
+        __counter = 0
+        while __counter <= dim:
+            for __adch in range(self.__ch_num):
+                __cmnd = ( 0b00011000 + __adch ) << 2
 
-            c, raw = self.__pi.spi_xfer(self.__hndl,[cmnd,0,0]) # 最初の要素が命令の入力
-            print(c)
-            print(raw)
+                __c, __raw = self.__pi.spi_xfer(self.__hndl,[__cmnd,0,0]) # 最初の要素が命令の入力
 
-            data = ((raw[1] & 0b11111111) <<  4) + \
-                    ((raw[2] & 0b11110000) >>  4)
+                __data = ((__raw[1] & 0b11111111) <<  4) + \
+                         ((__raw[2] & 0b11110000) >>  4)
 
-            self.__data_arr.addData(data)
+                self.__data_arr.addData(__data)
+
+                __counter += 1
     
     def shapeData(self):
         self.__data_arr.shaping()

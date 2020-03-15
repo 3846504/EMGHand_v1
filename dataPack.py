@@ -22,7 +22,7 @@ class dataPack:
         for data in datas:
             self.__arr += data
 
-    def shaping(self):
+    def shaping(self):  #TODO: 得られた筋電位データを望む形にするためのメソッド
         pass
 
     def show(self):
