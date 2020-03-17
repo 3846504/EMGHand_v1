@@ -2,7 +2,7 @@ import RPi.GPIO as GPIO
 import time
 import os
 
-class motor:    #TODO: 義手のモータを動作させるためのクラス
+class motor:    #TODO: 動作確認
     #---- モータについてのセットアップ ----#
     __gp_out1 = 18
     __gp_out2 = 17
@@ -45,10 +45,10 @@ class motor:    #TODO: 義手のモータを動作させるためのクラス
         self.__ang3 = 20
         self.__ang4 = 20
 
-        self.__servo1.ChangeDutyCycle(__ang1)
-        self.__servo2.ChangeDutyCycle(__ang2)
-        self.__servo3.ChangeDutyCycle(__ang3)
-        self.__servo4.ChangeDutyCycle(__ang4)
+        self.__servo1.ChangeDutyCycle(self.__ang1)
+        self.__servo2.ChangeDutyCycle(self.__ang2)
+        self.__servo3.ChangeDutyCycle(self.__ang3)
+        self.__servo4.ChangeDutyCycle(self.__ang4)
 
     def thumbOpen(self):
         self.__ang1 = 23

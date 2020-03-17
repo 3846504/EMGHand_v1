@@ -1,8 +1,7 @@
-import numpy as np
-
 class dataPack:
     #### private member ####
-    __arr = []
+    __EMG = []
+    __pose = []
 
     __dim = 100
     __ch_num = 5
@@ -14,19 +13,14 @@ class dataPack:
         self.__dim = dim
         self.__ch_num = ch_num
 
-    def __convert_1d_to_2d(self):
-        pass
-
     #### public method ####
-    def addData(self, *datas):
+    def addData(self, pose, *datas):
+        self.__pose += pose
         for data in datas:
-            self.__arr += data
-
-    def shaping(self):  #TODO: 得られた筋電位データを望む形にするためのメソッド
-        pass
+            self.__EMG += data
 
     def show(self):
-        return self.__arr
+        return self.__EMG, self.__pose
 
 if __name__ == "__main__":
     data = dataPack()

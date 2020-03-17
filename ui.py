@@ -1,6 +1,6 @@
 import RPi.GPIO
 
-class ui:
+class ui:   #TODO: UI（リモコン）についてのクラス　どうしましょうか？
     def __init__(self):
         pass
 

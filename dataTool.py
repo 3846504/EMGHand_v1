@@ -1,5 +1,6 @@
 import pigpio
 import dataPack
+import pickl
 
 class data:
     #### private member ####    
@@ -22,7 +23,7 @@ class data:
         self.__slct = slct
 
     #### public method ####
-    def saveData(self, dim = 10000):
+    def getData(self, pose, dim = 10000):
         __counter = 0
         while __counter <= dim:
             for __adch in range(self.__ch_num):
@@ -33,15 +34,15 @@ class data:
                 __data = ((__raw[1] & 0b11111111) <<  4) + \
                          ((__raw[2] & 0b11110000) >>  4)
 
-                self.__data_arr.addData(__data)
+                self.__data_arr.addData(pose, __data)
 
                 __counter += 1
     
-    def shapeData(self):
-        self.__data_arr.shaping()
+    def showData(self):
+        return self.__data_arr.show()
 
-    def getData(self):
-        return self.__data_arr
+    def saveData(self):
+        hoge
 
     def __del__(self):
         self.__pi.spi_close(self.__hndl)   
