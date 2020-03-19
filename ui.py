@@ -17,8 +17,8 @@ class ui:   #TODO: UI（リモコン）についてのクラス　どうしま�
     __PoseLED5 = 5
 
     # ---- Button ---- #
-    __selectButton = 1
-    __powerButton = 2
+    __selectButtonPin = 1
+    __powerButtonPin = 2
 
     # ---- インスタンスの生成 ---- #
     __pi = pigpio.pi()
@@ -34,8 +34,27 @@ class ui:   #TODO: UI（リモコン）についてのクラス　どうしま�
     __pi.setMode(__PoseLED4, pigpio.OUTPUT)
     __pi.setMode(__PoseLED5, pigpio.OUTPUT)
 
+    __pi.write(__ModeLED1, 0)
+    __pi.write(__ModeLED2, 0)
+    __pi.write(__ModeLED3, 0)
+
+    __pi.write(__PoseLED1, 0)
+    __pi.write(__PoseLED2, 0)
+    __pi.write(__PoseLED3, 0)
+    __pi.write(__PoseLED4, 0)
+    __pi.write(__PoseLED5, 0)
+
+    __pi.setMode(__powerButtonPin, pigpio.INPUT)
+    __pi.set_pull_up_down(__powerButtonPin, pigpio.PUD_UP)
+    
+    __pi.setMode(__selectButtonPin, pigpio.INPUT)
+    __pi.set_pull_up_down(__selectButtonPin, pigpio.PUD_UP)
+
+    __mode = 0
+    __pose = 0
+
     #### public member ####
-    endFlag = 0
+    __endFlag = 0
 
     def __init__(self):
         pass
@@ -46,8 +65,14 @@ class ui:   #TODO: UI（リモコン）についてのクラス　どうしま�
     def OffLED(self, num):
         self.__pi.write(num, 0)
 
+    def selectPose(self):
+        return self.__mode
+
     def selectMode(self):
-        pass
+        return self.__mode
 
     def modeShow(self):
         return self.__actionMode
+
+    def pushResetButton(self):
+        return self.__endFlag

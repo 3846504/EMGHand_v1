@@ -10,7 +10,7 @@ import pickle
 
 import day
 
-class model:
+class model:    #TODO: 要動作確認
     #### private member ####
     __X_train = []
     __X_test = []
@@ -26,7 +26,7 @@ class model:
         self.__saveFile = "Model\\" + day.day().now()
 
     #### public method ####
-    def mkModel(self, feature, target):  #TODO: モデルの作成についての関数
+    def mkModel(self, feature, target):
         self.__X_train, self.__X_test, self.__y_train, self.__y_test = train_test_split(feature, target, random_state=0)
         
         best_score = float(0.0) #最大ベストスコア
@@ -62,10 +62,10 @@ class model:
 
         self.__model = SVC(kernel = 'rbf', gamma=gamma, C=C)
 
-    def loadModel(self, date):  #TODO: モデルのロードについての関数
+    def loadModel(self, date):
         self.__data = pickle.load(open(self.__saveFile + ".pkl", 'rb'))
 
-    def saveModel(self, date):  #TODO: モデルのセーブについての関数
+    def saveModel(self, date):
         pickle.dump(self.__model, open("Model\\" + date, "wb"))
 
     def predict(self, feature):
