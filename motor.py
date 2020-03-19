@@ -39,7 +39,7 @@ class motor:    #TODO: 動作確認
     __servo3.ChangeDutyCycle(__ang3)
     __servo4.ChangeDutyCycle(__ang4)
 
-    def LoS(self):
+    def nPos(self):
         self.__ang1 = 20
         self.__ang2 = 20
         self.__ang3 = 20
@@ -49,22 +49,32 @@ class motor:    #TODO: 動作確認
         self.__servo2.ChangeDutyCycle(self.__ang2)
         self.__servo3.ChangeDutyCycle(self.__ang3)
         self.__servo4.ChangeDutyCycle(self.__ang4)
+        
+        print("ニュートラル")
 
     def thumbOpen(self):
         self.__ang1 = 23
         self.__servo1.ChangeDutyCycle(self.__ang1)
+        
+        print("親指閉じる")
 
     def thumbClose(self):
         self.__ang1 = 15
         self.__servo1.ChangeDutyCycle(self.__ang1)
 
+        print("親指開く")
+
     def thumbAddc(self):
         self.__ang2 = 13
         self.__servo2.ChangeDutyCycle(self.__ang2)
 
+        print("親指内転")
+
     def thumbAbdc(self):
         self.__ang2 = 23
         self.__servo2.ChangeDutyCycle(self.__ang2)
+
+        print("親指外転")
 
     def fingOpen(self):
         self.__ang3 = 23
@@ -72,11 +82,15 @@ class motor:    #TODO: 動作確認
         self.__servo3.ChangeDutyCycle(self.__ang3)
         self.__servo4.ChangeDutyCycle(self.__ang4)
 
+        print("4指開く")
+
     def fingClose(self):
         self.__ang3 = 11
         self.__ang4 = 11
         self.__servo4.ChangeDutyCycle(self.__ang4)
         self.__servo3.ChangeDutyCycle(self.__ang3)
+
+        print("4指閉じる")
 
     def __del__(self):
         self.__servo1.stop()
