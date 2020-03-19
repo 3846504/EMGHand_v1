@@ -1,12 +1,14 @@
 import pigpio
-import dataPack
+import pickle
+import day
 
-class data:
+class dataTool:
     #### private member ####    
     __ch_num = 5    #チャンネル数
     __dim = 100
 
-    __data_arr = dataPack.dataPack() #データ保存のためのリスト
+    __data_arr = [] #データ保存のためのリスト
+    __feature_arr = [] #特徴量保存のためのリスト
 
     __slct = 0          # SPI接続機器の番号 chip select gpio7
     __baud = 5000000    # 通信速度
@@ -16,32 +18,47 @@ class data:
     __pi = pigpio.pi()
     __hndl = __pi.spi_open(__slct, __baud, __flag) # デバイスオープン
 
-    #### public member ####
+    __File = "EMGdata\\yyyy_mm_dd"
 
     #### private method ####
     def __init__(self, ch_num=5, slct=0):
         self.__ch_num = ch_num
         self.__slct = slct
 
+        __today = day.day().now()
+        self.__saveFile = "EMGdata\\" + __today + ".csv"
+
     #### public method ####
-    def saveData(self):
-        for adch in range(self.__ch_num):
-            cmnd = ( 0b00011000 + adch ) << 2
+    def getData(self, dim = 10000):
+        __counter = 0
+        
+        while __counter <= dim:
+            for __adch in range(self.__ch_num):
+                __cmnd = ( 0b00011000 + __adch ) << 2
 
-            c, raw = self.__pi.spi_xfer(self.__hndl,[cmnd,0,0]) # 最初の要素が命令の入力
-            print(c)
-            print(raw)
+                __c, __raw = self.__pi.spi_xfer(self.__hndl,[__cmnd,0,0]) # 最初の要素が命令の入力
 
-            data = ((raw[1] & 0b11111111) <<  4) + \
-                    ((raw[2] & 0b11110000) >>  4)
+                __data = ((__raw[1] & 0b11111111) <<  4) + \
+                         ((__raw[2] & 0b11110000) >>  4)
 
-            self.__data_arr.addData(data)
-    
-    def shapeData(self):
-        self.__data_arr.shaping()
+                self.__data_arr += __data
 
-    def getData(self):
+                __counter += 1
+
+    def mkFeature(self):
+        pass
+
+    def showData(self):
         return self.__data_arr
+
+    def saveData(self):
+        pickle.dump(self.__data_arr, open(self.__saveFile, "wb"))
+
+    def loadData(self, date):
+        self.__data = pickle.load(open("EMGdata\\" + date + ".csv", 'rb'))
+
+    def showFeature(self):
+        return self.__feature_arr
 
     def __del__(self):
         self.__pi.spi_close(self.__hndl)   
